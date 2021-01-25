@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+// user defined
+import './quote.dart';
+import './loadquote.dart';
+import './appbar.dart';
+import './default.dart';
+import './settings.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -9,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Type Racer',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,7 +33,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Type Racer'),
     );
   }
 }
@@ -45,8 +52,8 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+  @override // _ makes class private
+  _MyHomePageState createState() => _MyHomePageState(); //return _MyHomePageState()
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -75,9 +82,25 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
+        centerTitle: true,
         title: Text(widget.title),
+        toolbarHeight: 66.0,
+        flexibleSpace: Container(  
+          decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+            colors: [
+              const Color(0xFF3366FF),
+              const Color(0xFF00CCFF),
+            ],
+            begin: const FractionalOffset(0.0, 0.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp
+            ),
+          ),
+        ),   
       ),
-      body: Center(
+      body: true ? Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -95,23 +118,25 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            // ButtonClick(_counter),     
+            Quote('test_quote', 'test_type', 'test_title', 'test_link'),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        // child: Row(
+        //   children: <Widget>[
+        //     Quote('test', 'test_type', 'test_title', 'test_link'),
+        //   ],
+        // )
+      ) : Center(),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: AddQuote(_incrementCounter),
+      
     );
   }
 }
