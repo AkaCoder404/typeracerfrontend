@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'dart:async';
+import 'dart:convert';
 
 // user defined
 import './quote.dart';
 import './loadquote.dart';
-import './appbar.dart';
-import './default.dart';
-import './settings.dart';
+
+// account
+import './account/account.dart';
+// home
+import './home/home.dart';
+// leaderboard
+import './leaderboard/leaderboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Type Racer',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -53,20 +61,37 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override // _ makes class private
-  _MyHomePageState createState() => _MyHomePageState(); //return _MyHomePageState()
+  _MyHomePageState createState() =>
+      _MyHomePageState(); //return _MyHomePageState()
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _currentIndex = 0;
+  Quote quote;
 
-  void _incrementCounter() {
+  // all tab widgets
+  final tabs = [
+    Home(),
+    Leaderboard(),
+    Account("username", "score"),
+  ];
+
+  void _loadQuote() async {
+    // set up POST request arguments
+    String url = "https://typeracerbackend-1.herokuapp.com/api/getquote/";
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String request = '{ "message" : "getquote" }';
+
+    // make POST request
+    Response response = await post(url, headers: headers, body: request);
+    var body = json.decode(response.body);
+    print(body);
+    // print(response.body);
+
+    // setState
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      quote = Quote(body['text'], body['source_type'], body['source_title'],
+          body['source_link']);
     });
   }
 
@@ -85,58 +110,46 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         title: Text(widget.title),
         toolbarHeight: 66.0,
-        flexibleSpace: Container(  
+        flexibleSpace: Container(
           decoration: new BoxDecoration(
-          gradient: new LinearGradient(
-            colors: [
-              const Color(0xFF3366FF),
-              const Color(0xFF00CCFF),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp
-            ),
+            gradient: new LinearGradient(
+                colors: [
+                  const Color(0xFF3366FF),
+                  const Color(0xFF00CCFF),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
           ),
-        ),   
-      ),
-      body: true ? Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // ButtonClick(_counter),     
-            Quote('test_quote', 'test_type', 'test_title', 'test_link'),
-          ],
         ),
-        // child: Row(
-        //   children: <Widget>[
-        //     Quote('test', 'test_type', 'test_title', 'test_link'),
-        //   ],
-        // )
-      ) : Center(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
-      floatingActionButton: AddQuote(_incrementCounter),
-      
+      ),
+      body: tabs[_currentIndex],
+      // body: /*true ?*/ Center(
+      //   child: Column(
+      //     // mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       quote,
+      //     ],
+      //   ),
+      // ) /*: Center()*/,
+      // floatingActionButton: LoadQuote(_loadQuote),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.leaderboard), label: "Leaderboard"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle), label: "Account")
+          ],
+          onTap: (index) {
+            // print(index);
+            setState(() {
+              _currentIndex = index;
+            });
+          }),
     );
   }
 }

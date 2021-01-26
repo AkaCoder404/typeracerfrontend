@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart'; 
+import 'package:http/http.dart'as http;
 
-class AddQuote extends StatelessWidget {
+// click button to load quote
+class LoadQuote extends StatelessWidget {
   final Function selectHandler;
 
-  AddQuote(this.selectHandler);
+  LoadQuote(this.selectHandler);
 
   @override
   Widget build(BuildContext context) {

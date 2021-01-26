@@ -38,7 +38,7 @@ class Quote extends StatelessWidget {
               padding: EdgeInsets.only(left: 5, right: 5, bottom: 10),
               child: Text(
                 text,
-                style: TextStyle( fontSize: 20),
+                style: TextStyle( fontSize: 15),
                 textAlign: TextAlign.left
               ),
             )
