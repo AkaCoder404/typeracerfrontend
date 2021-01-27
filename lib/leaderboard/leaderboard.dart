@@ -16,37 +16,65 @@ class Leaderboard extends StatelessWidget {
         Expanded(
             flex: 4,
             child: Container(
-              child: Row(
-                // mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment(0, .3),
-                      child: Container(
-                          padding: EdgeInsets.only(top: 80),
-                          alignment: Alignment.center,
-                          child: LeaderboardCard(place: "2", large: false))),
+              child: Column(
+                children: [
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Leaderboard",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              // letterSpacing: 1.1
+                            ),
+                            //style:
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Align(
-                      alignment: Alignment(0, .3),
-                      child: Container(
-                          padding: EdgeInsets.only(top: 40),
-                          alignment: Alignment.center,
-                          child: LeaderboardCard(place: "1", large: true))),
-                  Padding(
-                    padding: EdgeInsets.all(10),
+                  Row(
+                    // mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Align(
+                          alignment: Alignment(0, .3),
+                          child: Container(
+                              padding: EdgeInsets.only(top: 70),
+                              alignment: Alignment.center,
+                              child:
+                                  LeaderboardCard(place: "2", large: false))),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
+                      Align(
+                          alignment: Alignment(0, .3),
+                          child: Container(
+                              padding: EdgeInsets.only(top: 20),
+                              alignment: Alignment.center,
+                              child: LeaderboardCard(place: "1", large: true))),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
+                      Align(
+                          alignment: Alignment(0, .3),
+                          child: Container(
+                              padding: EdgeInsets.only(top: 70),
+                              alignment: Alignment.center,
+                              child:
+                                  LeaderboardCard(place: "3", large: false))),
+                    ],
                   ),
-                  Align(
-                      alignment: Alignment(0, .3),
-                      child: Container(
-                          padding: EdgeInsets.only(top: 80),
-                          alignment: Alignment.center,
-                          child: LeaderboardCard(place: "3", large: false))),
                 ],
               ),
+
               // child: Row(children: <Widget>[]),
               decoration: new BoxDecoration(
                 gradient: new LinearGradient(
