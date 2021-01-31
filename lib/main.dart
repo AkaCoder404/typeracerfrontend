@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:async';
-import 'dart:convert';
 
-// user defined
-import './quote.dart';
-import './loadquote.dart';
-
-// account
-import './account/account.dart';
-// home
-import './home/home.dart';
-// leaderboard
-import './leaderboard/leaderboard.dart';
+// custom
+import './mainlayout.dart';
+import './account/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -66,35 +56,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
-  Quote quote;
-
-  // all tab widgets
-  final tabs = [
-    Home(),
-    Leaderboard(),
-    Account("username", "score"),
-  ];
-
-  void _loadQuote() async {
-    // set up POST request arguments
-    String url = "https://typeracerbackend-1.herokuapp.com/api/getquote/";
-    Map<String, String> headers = {"Content-type": "application/json"};
-    String request = '{ "message" : "getquote" }';
-
-    // make POST request
-    Response response = await post(url, headers: headers, body: request);
-    var body = json.decode(response.body);
-    print(body);
-    // print(response.body);
-
-    // setState
-    setState(() {
-      quote = Quote(body['text'], body['source_type'], body['source_title'],
-          body['source_link']);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -103,53 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        centerTitle: true,
-        title: Text(widget.title),
-        toolbarHeight: 66.0,
-        flexibleSpace: Container(
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
-                colors: [
-                  const Color(0xFF3366FF),
-                  const Color(0xFF00CCFF),
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
-        ),
-      ),
-      body: tabs[_currentIndex],
-      // body: /*true ?*/ Center(
-      //   child: Column(
-      //     // mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       quote,
-      //     ],
-      //   ),
-      // ) /*: Center()*/,
-      // floatingActionButton: LoadQuote(_loadQuote),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.leaderboard), label: "Leaderboard"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), label: "Account")
-          ],
-          onTap: (index) {
-            // print(index);
-            setState(() {
-              _currentIndex = index;
-            });
-          }),
-    );
+    return Scaffold(body: Login());
   }
 }
