@@ -19,6 +19,7 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           toolbarHeight: 70,
           backgroundColor: Colors.white,
+          
           centerTitle: true,
           title: Container(
               child: Column(
