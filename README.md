@@ -2,7 +2,11 @@
 
 this is my first flutter project based on the webgame https://play.typeracer.com/. I wanted to create a similar style type racing app where you could race random competitors, practice type races on your own, and invite friends to play.
 
+<<<<<<< HEAD
 go to [typeracer/readme](..\typeracerfrontend\README.md) to see development history
+=======
+go to [typeracerfrontend/readme](typeracerfronted/README.md) to see development history
+>>>>>>> 82ed7ccb844989c50053e0326e223fcb70c4d2ba
 
 what the interface looks like so far
 
